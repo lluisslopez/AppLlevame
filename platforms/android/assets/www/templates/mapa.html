@@ -1,0 +1,61 @@
+<ion-view style="" class=" " id="page8" title="TaxiClub">
+    <style>
+      
+      #menubtn{
+        display:block;
+      }
+        
+      .controls {
+      margin-top: 10px;
+      border: 1px solid transparent;
+      border-radius: 2px 0 0 2px;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      height: 32px;
+      outline: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+      #origin-input,#destination-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 93%;
+      }
+
+      #origin-input:focus,#destination-input:focus {
+        border-color: #4d90fe;
+      }
+      .testHello{
+       position : absolute;
+       padding: 5px;
+       margin-bottom: 30px;
+       margin-left: 10px; 
+       border: 1px solid transparent;
+       border-radius: 4px; 
+       color: #a94442;
+       background-color: #f2dede;
+       border-color: #ebccd1;
+       width : 60%;
+       bottom:0px;
+     }
+    </style>
+
+    <ion-content scroll="false">
+     <input id="origin-input" class="controls" type="text" placeholder="Enter an   origin location">
+     <input id="destination-input" class="controls" type="text" placeholder="Enter a destination location">
+     <map on-create="mapCreated(map)"></map>
+     <div class="testHello">Costo extra de <strong> $10.00</strong></div>
+   </ion-content>
+    <ion-footer-bar class="bar-stable">
+    <p align="center">
+      <a ng-click="centerOnMe()" class="button button-icon icon ion-navigate"></a>
+       	<button class="buttonT button-large">Tarifa</button>
+       	<button class="buttonP button-large">Pedir</button>
+      <a ng-click="alerta()" class="button button-icon icon ion-alert-circled"></a>
+     </p>
+    </ion-footer-bar>
+</ion-view>
