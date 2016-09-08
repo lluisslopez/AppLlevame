@@ -52,6 +52,9 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.ionicframework.appmapa625810"
         },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "com.ionicframework.appmapa625810"
+        },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.appmapa625810"
         }

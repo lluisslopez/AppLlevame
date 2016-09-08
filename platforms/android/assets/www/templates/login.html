@@ -1,4 +1,4 @@
-    <ion-view style="" class=" " id="page10" title="Login">
+    <ion-view style="" class=" " id="page10" title="Logins" ng-init="doSomething()">
         <style>
             #menubtn {
                 display:none;
@@ -10,7 +10,7 @@
                 <img src="img/taxiclub.jpg" width="98" height="98"></p>    
                 <br>
                 <h1 class="sign-up-title">Bienvenidos</h1>
-                <input type="text" ng-model ="usuario.correo" class="sign-up-input" placeholder="Correo" autofocus required> 
+                <input type="text"  ng-model ="usuario.correo" class="sign-up-input" placeholder="Correo" autofocus required> 
                 <input type="password"   ng-model ="usuario.pass" class="sign-up-input" placeholder="contraseña" required>
                 <input type="submit" value="Iniciar Sesion" class="sign-up-button">
                 <a class=" button button-positive  button-block button-clear " id="login-button2" ui-sref="taxiClub.crearCuenta">Crear cuenta</a>

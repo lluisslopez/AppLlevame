@@ -13,15 +13,56 @@ angular.module('starter.controllers', [])
 
 })
    
-.controller('menuCtrl', function($scope, $state) {
+.controller('menuCtrl', function($scope, $state, $ionicPopup) {
   $scope.cerrarSesion = function(){
     localStorage.removeItem('usuario');
     $state.go('taxiClub.login');
   };
+
+  $scope.showSShare = function(){
+    var myPopup = $ionicPopup.show({
+      //template: '<div style="width:100%;height:200px"> Ejemplo</div>',
+      title:        'Comparte nuestra aplicación',
+      subTitle:     'Porfavor selecciona el medio a compartir',
+      templateUrl:  'templates/socialShare.html',
+      scope: $scope,
+      buttons: [{text:'Cerrar',type:'button-positive'}]
+    });
+  };
+
+  $scope.showEntra = function(){
+    console.log('Ejemplo');
+  }; 
+
+  $scope.share = function(t, msg, img, link){  
+    if(t == 'w')
+      window.plugins.socialsharing.
+      shareViaWhatsApp(msg, '', link);
+    else if(t == 'f')
+      window.plugins.socialsharing.
+      shareViaFacebook(msg, img, link);    
+    else if(t == 't')
+      window.plugins.socialsharing.
+      shareViaTwitter(msg, img, link);    
+    else if(t == 'sms')
+      window.plugins.socialsharing.
+      shareViaSMS(msg+' '+img+' '+link);    
+    else
+    {
+        var sub = 'Beautiful images inside ..';
+        window.plugins.socialsharing
+        .shareViaEmail(msg, sub, '');        
+    }    
+  }; 
+
 })
    
 .controller('ayudaCtrl', function($scope) {
 
+})
+
+.controller('socialShare', function($scope) {
+  
 })
    
 .controller('QuiNesSomosCtrl', function($scope) {
@@ -29,7 +70,15 @@ angular.module('starter.controllers', [])
 })
    
 .controller('loginCtrl', function($scope, $http, $state) {
-  
+  //document.getElementById('test').value = "";
+  //console.log($scope);
+  //$scope.correo = "";
+  //$scope.pass   = "";
+  $scope.$on('$ionicView.enter', function() {
+     // Code you want executed every time view is opened
+     $scope.correo = "";
+     $scope.pass   = "";
+  });
 
   if(localStorage.getItem('usuario') && localStorage.getItem('usuario').length>0){
     $state.go('taxiClub.mapa');

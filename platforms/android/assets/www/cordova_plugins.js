@@ -449,6 +449,14 @@ module.exports = [
         "runs": true
     },
     {
+        "id": "cordova-plugin-x-socialsharing.SocialSharing",
+        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+        "pluginId": "cordova-plugin-x-socialsharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
+    },
+    {
         "id": "ionic-plugin-keyboard.keyboard",
         "file": "plugins/ionic-plugin-keyboard/www/android/keyboard.js",
         "pluginId": "ionic-plugin-keyboard",
@@ -477,6 +485,7 @@ module.exports.metadata =
     "cordova-plugin-splashscreen": "3.1.0",
     "cordova-plugin-statusbar": "2.1.2",
     "cordova-plugin-whitelist": "1.2.1",
+    "cordova-plugin-x-socialsharing": "5.0.11",
     "ionic-plugin-keyboard": "2.0.1"
 };
 // BOTTOM OF METADATA

@@ -48,7 +48,16 @@ angular.module('starter.routes', [])
       }
     }
   })
-
+  .state('taxiClub.socialShare', {
+    cache: false,
+    url: '/socialShare',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/socialShare.html',
+        controller: 'socialShare'
+      }
+    }
+  })
   .state('taxiClub.QuiNesSomos', {
     url: '/page7',
     views: {
@@ -60,6 +69,7 @@ angular.module('starter.routes', [])
   })
 
   .state('taxiClub.login', {
+    cache: false,
     url: '/page10',
     views: {
       'side-menu21': {
