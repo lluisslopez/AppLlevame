@@ -2,6 +2,11 @@
     <ion-content class="has-header" padding="true">
         <form class="list">
           <label class="item item-input">
+            <span class="input-label">Usuario</span>
+            <!--<input ng-model ="user.ID" type="text" ng-disabled="true">-->
+            {{user.ID}}
+          </label>
+          <label class="item item-input">
             <span class="input-label">Latitud</span>
             <input ng-model ="lat" type="text">
           </label>
@@ -10,8 +15,11 @@
             <input ng-model ="lng" type="text">
           </label>
         </<form>
-        <button class="button button-block button-positive" ng-click="writedir()">
+        <button class="button button-block button-energized" ng-disabled="isDisabled" ng-click="writedir()">
           Activo
+        </button>
+        <button class="button button-block button-assertive" ng-click="inactivedir()">
+          Inactivo
         </button>
     </ion-content>
 </ion-view>

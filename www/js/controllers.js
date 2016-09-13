@@ -47,7 +47,7 @@ angular.module('starter.controllers', ['pubnub.angular.service','ngCordova'])
     else if(t == 'sms')
       window.plugins.socialsharing.
       shareViaSMS(msg+' '+img+' '+link);    
-    else
+      else
     {
         var sub = 'Beautiful images inside ..';
         window.plugins.socialsharing
@@ -69,8 +69,16 @@ angular.module('starter.controllers', ['pubnub.angular.service','ngCordova'])
 
 })
 .controller('locationCtrl', function($scope, Pubnub, $cordovaGeolocation, $ionicPlatform){
+  $scope.user = "" ;
+  $scope.locations = "" ;
   
   $ionicPlatform.ready(function(){
+    if(localStorage.getItem('usuario') && localStorage.getItem('usuario').length>0){
+      $scope.user = angular.fromJson(localStorage.getItem('usuario'));
+      //console.log($scope.user['ID']);
+    }
+    $scope.isDisabled = false;
+    /*
     var posOptions = {timeout: 10000, enableHighAccuracy: true};
     $cordovaGeolocation
       .getCurrentPosition(posOptions)
@@ -80,9 +88,9 @@ angular.module('starter.controllers', ['pubnub.angular.service','ngCordova'])
         console.log(lat,long);
       }, function(err) {
         console.log('getCurrentPosition error:' + angular.toJson(err));
-    });  
-  });
+    });  */
 
+  });
 
   Pubnub.init({
     publish_key: 'pub-c-4ee461dc-28c5-42cd-b548-2a3484b36daa',
@@ -91,31 +99,40 @@ angular.module('starter.controllers', ['pubnub.angular.service','ngCordova'])
 
   $scope.writedir = function(){
     //$scope.coords = [];
+    $scope.isDisabled = true;
     var watchOptions = {timeout : 30000,enableHighAccuracy: false};
     var watch = $cordovaGeolocation.watchPosition(watchOptions);
     watch.then(null,
     function(err){
-      console.log('watchPosition error:' + angular.toJson(err));
+      console.log(err);
     },
     function(position) {
-      $scope.coords = [];
+      //$scope.coords = [];
       var lat  = position.coords.latitude;
       var long = position.coords.longitude;
+      $scope.lat = lat;
+      $scope.lng = long;
       console.log(lat,long);
-      //$scope.coords.push({latz:parseInt(lat, 10),lngz:parseInt(long, 10)});
-      //$scope.pnCall({latz:parseInt(lat, 10),lngz:parseInt(long, 10)});
-      $scope.pnCall({latz:lat,lngz:long});
-    });
+      $scope.pnCall({latz:lat, lngz:long, idcar:$scope.user['ID']});
 
-    
+      
+    });
   }  
   $scope.pnCall = function(coords) {
     console.log('in function');
     //coords.forEach(function(value, i) {
       //setTimeout(function (){
-        Pubnub.publish({channel: "mymaps",message: coords});
+    Pubnub.publish({channel: "mymaps",message: coords});
       //}, 3000 * i);
     //});
+  }
+
+  $scope.inactivedir = function(){
+    //console.log($scope.user['ID']);
+    $scope.isDisabled = false;
+    Pubnub.unsubscribe({
+      channel : 'mymaps',
+    });  
   }
 
 }) 
