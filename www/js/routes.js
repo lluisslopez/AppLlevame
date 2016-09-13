@@ -7,10 +7,7 @@ angular.module('starter.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    
-  
-
-      .state('cart', {
+  .state('cart', {
     url: '/page2',
     templateUrl: 'templates/cart.html',
     controller: 'cartCtrl'
@@ -55,6 +52,16 @@ angular.module('starter.routes', [])
       'side-menu21': {
         templateUrl: 'templates/socialShare.html',
         controller: 'socialShare'
+      }
+    }
+  })
+  .state('taxiClub.location', {
+    cache: false,
+    url: '/location',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/location.html',
+        controller: 'locationCtrl'
       }
     }
   })

@@ -1,6 +1,6 @@
 var API = 'http://tekoapp.com/taxiapp/api';
 
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['pubnub.angular.service','ngCordova'])
 .controller('cartCtrl', function($scope) {
 
 })
@@ -68,7 +68,57 @@ angular.module('starter.controllers', [])
 .controller('QuiNesSomosCtrl', function($scope) {
 
 })
-   
+.controller('locationCtrl', function($scope, Pubnub, $cordovaGeolocation, $ionicPlatform){
+  
+  $ionicPlatform.ready(function(){
+    var posOptions = {timeout: 10000, enableHighAccuracy: true};
+    $cordovaGeolocation
+      .getCurrentPosition(posOptions)
+      .then(function (position) {
+        var lat  = position.coords.latitude;
+        var long = position.coords.longitude;
+        console.log(lat,long);
+      }, function(err) {
+        console.log('getCurrentPosition error:' + angular.toJson(err));
+    });  
+  });
+
+
+  Pubnub.init({
+    publish_key: 'pub-c-4ee461dc-28c5-42cd-b548-2a3484b36daa',
+    subscribe_key: 'sub-c-c86ca5e6-7068-11e6-a723-0619f8945a4f'
+  }); 
+
+  $scope.writedir = function(){
+    //$scope.coords = [];
+    var watchOptions = {timeout : 30000,enableHighAccuracy: false};
+    var watch = $cordovaGeolocation.watchPosition(watchOptions);
+    watch.then(null,
+    function(err){
+      console.log('watchPosition error:' + angular.toJson(err));
+    },
+    function(position) {
+      $scope.coords = [];
+      var lat  = position.coords.latitude;
+      var long = position.coords.longitude;
+      console.log(lat,long);
+      //$scope.coords.push({latz:parseInt(lat, 10),lngz:parseInt(long, 10)});
+      //$scope.pnCall({latz:parseInt(lat, 10),lngz:parseInt(long, 10)});
+      $scope.pnCall({latz:lat,lngz:long});
+    });
+
+    
+  }  
+  $scope.pnCall = function(coords) {
+    console.log('in function');
+    //coords.forEach(function(value, i) {
+      //setTimeout(function (){
+        Pubnub.publish({channel: "mymaps",message: coords});
+      //}, 3000 * i);
+    //});
+  }
+
+}) 
 .controller('loginCtrl', function($scope, $http, $state) {
   //document.getElementById('test').value = "";
   //console.log($scope);
