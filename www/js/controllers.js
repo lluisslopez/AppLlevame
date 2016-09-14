@@ -71,6 +71,7 @@ angular.module('starter.controllers', ['pubnub.angular.service','ngCordova'])
 .controller('locationCtrl', function($scope, Pubnub, $cordovaGeolocation, $ionicPlatform){
   $scope.user = "" ;
   $scope.locations = "" ;
+  var watch;
   
   $ionicPlatform.ready(function(){
     if(localStorage.getItem('usuario') && localStorage.getItem('usuario').length>0){
@@ -98,23 +99,21 @@ angular.module('starter.controllers', ['pubnub.angular.service','ngCordova'])
   }); 
 
   $scope.writedir = function(){
-    //$scope.coords = [];
     $scope.isDisabled = true;
-    var watchOptions = {timeout : 30000,enableHighAccuracy: false};
-    var watch = $cordovaGeolocation.watchPosition(watchOptions);
+    //timeout : 30000,
+    var watchOptions = {timeout : 30000,enableHighAccuracy: true};
+    watch = $cordovaGeolocation.watchPosition(watchOptions);
     watch.then(null,
     function(err){
       console.log(err);
     },
     function(position) {
-      //$scope.coords = [];
       var lat  = position.coords.latitude;
       var long = position.coords.longitude;
       $scope.lat = lat;
       $scope.lng = long;
       console.log(lat,long);
       $scope.pnCall({latz:lat, lngz:long, idcar:$scope.user['ID']});
-
       
     });
   }  
@@ -129,6 +128,8 @@ angular.module('starter.controllers', ['pubnub.angular.service','ngCordova'])
 
   $scope.inactivedir = function(){
     //console.log($scope.user['ID']);
+    watch.clearWatch();
+
     $scope.isDisabled = false;
     Pubnub.unsubscribe({
       channel : 'mymaps',
