@@ -76,21 +76,9 @@ angular.module('starter.controllers', ['pubnub.angular.service','ngCordova'])
   $ionicPlatform.ready(function(){
     if(localStorage.getItem('usuario') && localStorage.getItem('usuario').length>0){
       $scope.user = angular.fromJson(localStorage.getItem('usuario'));
-      //console.log($scope.user['ID']);
     }
     $scope.isDisabled = false;
-    /*
-    var posOptions = {timeout: 10000, enableHighAccuracy: true};
-    $cordovaGeolocation
-      .getCurrentPosition(posOptions)
-      .then(function (position) {
-        var lat  = position.coords.latitude;
-        var long = position.coords.longitude;
-        console.log(lat,long);
-      }, function(err) {
-        console.log('getCurrentPosition error:' + angular.toJson(err));
-    });  */
-
+  
   });
 
   Pubnub.init({
@@ -100,19 +88,22 @@ angular.module('starter.controllers', ['pubnub.angular.service','ngCordova'])
 
   $scope.writedir = function(){
     $scope.isDisabled = true;
-    //timeout : 30000,
-    var watchOptions = {timeout : 30000,enableHighAccuracy: true};
+    //maximumAge: 0,
+    var watchOptions = {timeout :30000,enableHighAccuracy: true};
     watch = $cordovaGeolocation.watchPosition(watchOptions);
     watch.then(null,
     function(err){
       console.log(err);
     },
     function(position) {
-      var lat  = position.coords.latitude;
-      var long = position.coords.longitude;
+      console.log(position);
+      var lat   = position.coords.latitude;
+      var long  = position.coords.longitude;
+      //var dir   = position.coords.heading; 
       $scope.lat = lat;
       $scope.lng = long;
-      console.log(lat,long);
+      $scope.ang = dir;
+      
       $scope.pnCall({latz:lat, lngz:long, idcar:$scope.user['ID']});
       
     });
